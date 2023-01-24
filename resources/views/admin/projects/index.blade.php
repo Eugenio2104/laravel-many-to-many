@@ -31,7 +31,7 @@
                         <td><span class="badge text-bg-warning"> {{ $project->category?->type }}</span></td>
                         <td>
                             @forelse ($project->technologies as $technology)
-                                <span class="badge text-bg-warning"> {{ $project->category->type }}</span>
+                                <span class="badge text-bg-warning"> {{ $technology->type }}</span>
                             @empty
                                 <p>no data</p>
                             @endforelse

@@ -78,9 +78,21 @@
                     </div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <p for="date" class="form-label">technology</p>
+                @foreach ($technologies as $technology)
+                    <input type="checkbox" id="technology{{ $loop->iteration }}" name="technologies[]"
+                        value="{{ $technology->id }}"
+                        @if (!$errors->all() && $project->technologies->contains($technology)) checked
+                @elseif ($errors->all() && in_array($technology->id, old('technologies', [])))
+                checked @endif>
+                    <label class="me-2" for="technology{{ $loop->iteration }}">{{ $technology->type }}</label>
+                @endforeach
+            </div>
             <button type="submit" class="btn btn-primary mb-5">Invia</button>
         </form>
     </div>
+
 
     <script>
         function showImage(event) {

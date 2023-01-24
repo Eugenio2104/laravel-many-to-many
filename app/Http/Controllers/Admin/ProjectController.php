@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\ProjectRequest;
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,7 +37,8 @@ class ProjectController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.projects.create', compact('categories'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -61,6 +63,11 @@ class ProjectController extends Controller
         $new_item->fill($data);
         $new_item->save();
 
+        if (array_key_exists('technologies', $data)) {
+            $new_item->technologies()->attach($data['technologies']);
+        }
+
+
         return redirect(route('admin.projects.index', $new_item));
     }
 
@@ -73,7 +80,8 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $categories = Category::all();
-        return view('admin.projects.show', compact('project', 'categories'));
+        $technologies = Technology::all();
+        return view('admin.projects.show', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -85,7 +93,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -118,6 +127,10 @@ class ProjectController extends Controller
 
 
         $project->update($data);
+
+        if (array_key_exists('technologies', $data)) {
+            $project->technologies()->detach();
+        }
 
         return redirect(route('admin.projects.show', $project));
     }
