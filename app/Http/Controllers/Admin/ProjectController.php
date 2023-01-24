@@ -19,8 +19,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
-        return view('admin.projects.index', compact('projects'));
+        if (isset($_GET['search'])) {
+            $search = $_GET['search'];
+            $projects = Project::where('name', 'like', "%$search%")->paginate(10);
+        } else {
+            $projects = Project::paginate(10);
+        }
+        return view('Admin.projects.index', compact('projects'));
     }
 
     /**

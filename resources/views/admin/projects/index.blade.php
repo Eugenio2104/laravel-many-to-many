@@ -14,6 +14,7 @@
                     <th scope="col">image</th>
                     <th scope="col">name</th>
                     <th scope="col">Type</th>
+                    <th scope="col">Technology</th>
                     <th scope="col">client_name</th>
                     <th scope="col">summary</th>
                     <th scope="col">azioni</th>
@@ -28,6 +29,13 @@
                                 alt=""></th>
                         <td>{{ $project->name }} </td>
                         <td><span class="badge text-bg-warning"> {{ $project->category?->type }}</span></td>
+                        <td>
+                            @forelse ($project->technologies as $technology)
+                                <span class="badge text-bg-warning"> {{ $project->category->type }}</span>
+                            @empty
+                                <p>no data</p>
+                            @endforelse
+                        </td>
                         <td>{{ $project->client_name }}</td>
                         <td>{{ $project->summary }}</td>
                         <td>
@@ -47,5 +55,6 @@
             </tbody>
         </table>
 
+        {{ $projects->links() }}
     </div>
 @endsection
